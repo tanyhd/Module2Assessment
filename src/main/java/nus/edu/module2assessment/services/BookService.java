@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import nus.edu.module2assessment.models.Book;
 import nus.edu.module2assessment.models.BookSearch;
 
 @Service
@@ -30,7 +31,7 @@ public class BookService {
         String url = UriComponentsBuilder
                     .fromUriString("http://openlibrary.org/search.json")
                     .queryParam("title", title)
-                    .queryParam("availability&limit", 20)
+                    .queryParam("limit", "20")
                     .toUriString();
         RequestEntity<Void> req = RequestEntity.get(url).build();
         RestTemplate template = new RestTemplate();
@@ -59,5 +60,52 @@ public class BookService {
         return bookSearchResult;
     }
 
+
+    public Book searchBookDetail(String id) {
+
+        String urlString = "https://openlibrary.org/works/" + id + ".json";
+    
+        String url = UriComponentsBuilder
+                    .fromUriString(urlString)
+                    .toUriString();
+        RequestEntity<Void> req = RequestEntity.get(url).build();
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = template.exchange(req, String.class);
+
+        if(resp.getStatusCode() != HttpStatus.OK) {
+            throw new IllegalArgumentException("Error: status code %d".formatted(resp.getStatusCode().toString()));
+        }
+
+        String body = resp.getBody();
+        Book book = new Book();
+  
+        try(InputStream is = new ByteArrayInputStream(body.getBytes())) {
+
+            JsonReader reader = Json.createReader(is);
+            JsonObject result = reader.readObject();
+            book.setTitle(result.getString("title"));
+            
+            try {
+                book.setDescription(result.getJsonObject("description").getString("value"));
+            } catch (Exception e) {}
+
+            try {
+                book.setDescription(result.getString("description"));
+            } catch (Exception e) {}
+
+            try {
+                book.setExcerpt(result.getJsonArray("excerpts").getJsonObject(0).getString("excerpt")); 
+            } catch (Exception e) {}
+            
+            if (book.getDescription() == null)
+                book.setDescription("No description available");
+
+            if (book.getExcerpt() == null)
+                book.setExcerpt("No excerpt available");
+
+        } catch (Exception e) {}
+
+        return book;
+    }
 
 }
