@@ -8,13 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Search result for <span data-th-text="${city}">book title</span></h1>
-    <ul data-th-each="item : ${weather}">
-        <p>City: <span data-th-text="${item.cityName}"></span></p>
-        <p><span data-th-text="${item.main}"></span>, <span data-th-text="${item.description}"></span></p>
-        <p>Temperature: <span data-th-text="${item.temp}"></span></p>
-        <p>Pressure: <span data-th-text="${item.pressure}"></span></p>
-        <p>Humidity: <span data-th-text="${item.humidity}"></span></p>
+    <h1>Search result for "<span data-th-text="${titleName}">book title</span>"</h1>
+    <ul data-th-each="item : ${BookIdList}">
+        <a th:href="@{'book/' + ${item.worksId}}">
+        <span data-th-text="${item.title}"></span>
+        <!-- <span data-th-text="${item.worksId}"></span> -->
+        </a>
     </ul>
     <a href="/index.html" class="btn btn-success">Back</a>
 </body>
