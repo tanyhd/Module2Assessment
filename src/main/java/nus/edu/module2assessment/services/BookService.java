@@ -111,6 +111,13 @@ public class BookService {
             try {
                 book.setExcerpt(result.getJsonArray("excerpts").getJsonObject(0).getString("excerpt")); 
             } catch (Exception e) {}
+
+            try {
+                int coverNum = result.getJsonArray("covers").getInt(0);
+                String coverUrl = "https://covers.openlibrary.org/b/id/" + coverNum + "-L.jpg";
+                book.setBookCoverNum(coverUrl);
+                
+            } catch (Exception e) {}
             
             if (book.getDescription() == null)
                 book.setDescription("No description available");

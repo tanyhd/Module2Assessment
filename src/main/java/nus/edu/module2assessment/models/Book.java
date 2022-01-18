@@ -9,7 +9,14 @@ public class Book implements Serializable {
     private String description;
     private String excerpt;
     private boolean cached;
+    private String bookCoverNum;
 
+    public String getBookCoverNum() {
+        return bookCoverNum;
+    }
+    public void setBookCoverNum(String bookCoverNum) {
+        this.bookCoverNum = bookCoverNum;
+    }
     public String getId() {
         return id;
     }

@@ -12,7 +12,7 @@
     <p><Strong>Description: </Strong><span data-th-text="${bookDetails.description}"></span></p>
     <p><Strong>Excerpt: </Strong><span data-th-text="${bookDetails.excerpt}"></span></p>
     <p><Strong>Cached: </Strong><span data-th-text="${bookDetails.cached}"></span></p>
-
+    <img th:src="${coverUrl}">
     <div class="d-flex justify-content-end">
         <a href="/index.html" class="btn btn-success">Back</a>
     </div>

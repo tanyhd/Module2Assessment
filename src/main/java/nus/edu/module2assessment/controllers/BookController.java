@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import nus.edu.module2assessment.models.Book;
 import nus.edu.module2assessment.services.BookService;
 
 @Controller
@@ -16,7 +17,10 @@ public class BookController {
     
     @GetMapping("/book/{id}")
     public String getMethodName(@PathVariable String id, Model model) {
-        model.addAttribute("bookDetails", bookService.searchBookDetail(id));
+        Book book = new Book();
+        book = bookService.searchBookDetail(id);
+        model.addAttribute("bookDetails", book);
+        model.addAttribute("coverUrl", book.getBookCoverNum());
         return "bookDetails";
     }
     
