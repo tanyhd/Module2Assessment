@@ -1,28 +1,32 @@
 package nus.edu.module2assessment.services;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import nus.edu.module2assessment.models.Book;
 import nus.edu.module2assessment.models.BookSearch;
+import nus.edu.module2assessment.repository.BookRepository;
 
 @Service
 public class BookService {
     
     private final Logger logger = Logger.getLogger(BookService.class.getName());
+
+    @Autowired
+    BookRepository bookRepository;
 
     public List<BookSearch> Search(String title) {
         
@@ -63,6 +67,13 @@ public class BookService {
 
     public Book searchBookDetail(String id) {
 
+        if(bookRepository.findById(id) != null) {
+            Book book = new Book();
+            book = bookRepository.findById(id);
+            book.setCached(true);
+            return book;
+        }
+
         String urlString = "https://openlibrary.org/works/" + id + ".json";
     
         String url = UriComponentsBuilder
@@ -83,6 +94,8 @@ public class BookService {
 
             JsonReader reader = Json.createReader(is);
             JsonObject result = reader.readObject();
+            book.setId(id);
+            book.setCached(false);
             book.setTitle(result.getString("title"));
             
             try {
@@ -105,6 +118,7 @@ public class BookService {
 
         } catch (Exception e) {}
 
+        bookRepository.save(id, book);
         return book;
     }
 

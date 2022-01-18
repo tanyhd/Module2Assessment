@@ -1,11 +1,12 @@
 package nus.edu.module2assessment.models;
 
-public class BookSearch {
+import java.io.Serializable;
+
+public class BookSearch implements Serializable{
     
     String worksId;
     String title;
 
-    
     public String getWorksId() {
         return worksId;
     }
@@ -18,6 +19,4 @@ public class BookSearch {
     public void setTitle(String title) {
         this.title = title;
     } 
-
-    
 }
