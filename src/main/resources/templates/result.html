@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Search result for <span data-th-text="${city}">book title</span></h1>
+    <ul data-th-each="item : ${weather}">
+        <p>City: <span data-th-text="${item.cityName}"></span></p>
+        <p><span data-th-text="${item.main}"></span>, <span data-th-text="${item.description}"></span></p>
+        <p>Temperature: <span data-th-text="${item.temp}"></span></p>
+        <p>Pressure: <span data-th-text="${item.pressure}"></span></p>
+        <p>Humidity: <span data-th-text="${item.humidity}"></span></p>
+    </ul>
+    <a href="/index.html" class="btn btn-success">Back</a>
+</body>
+</html>
