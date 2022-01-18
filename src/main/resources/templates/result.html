@@ -9,12 +9,19 @@
 </head>
 <body>
     <h1>Search result for "<span data-th-text="${titleName}">book title</span>"</h1>
-    <ul data-th-each="item : ${BookIdList}">
+    <div class="row" data-th-if="${BookIdList.isEmpty()}">
+        <div class="col">
+            <h2>No results found</h2>
+        </div>
+    </div>
+    <ul class="list-group" data-th-each="item : ${BookIdList}">
         <a th:href="@{'book/' + ${item.worksId}}">
         <span data-th-text="${item.title}"></span>
         <!-- <span data-th-text="${item.worksId}"></span> -->
         </a>
     </ul>
+    <br>
+    <p>more result not shown</p>
     <div class="d-flex justify-content-end">
         <a href="/index.html" class="btn btn-success">Back</a>
     </div>

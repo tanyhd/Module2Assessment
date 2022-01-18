@@ -26,7 +26,7 @@ public class RedisConfig {
     @Value("${spring.redis.database}")
     private int redisDatabase;
 
-    //private static final String REDIS_PASSWORD = System.getenv("redis_key");
+    private static final String REDIS_PASSWORD = System.getenv("redis_key");
 
     private final Logger logger = Logger.getLogger(RedisConfig.class.getName());
 
@@ -37,11 +37,11 @@ public class RedisConfig {
         
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
-/*         logger.log(Level.INFO, "Set Redis password"); 
+        logger.log(Level.INFO, "Set Redis password"); 
         if(null != REDIS_PASSWORD) {
             config.setPassword(REDIS_PASSWORD);
             logger.log(Level.INFO, "Set Redis password"); 
-        } */
+        }
         config.setDatabase(redisDatabase);
 
         final JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
